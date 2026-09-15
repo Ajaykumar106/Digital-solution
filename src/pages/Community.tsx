@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react"
+import { useState } from "react"
 import { useAppContext } from "../context/AppContext"
 import { MapPin, ThumbsUp, Calendar, Plus, Filter, Image as ImageIcon, ArrowUpRight } from "lucide-react"
 import { Input } from "../components/ui/input"
