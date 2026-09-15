@@ -1,32 +1,37 @@
 import { useState } from "react"
-import { MapPin, Navigation, Layers, Search, Wrench, Building2, AlertTriangle, HeartPulse, X, Star, Phone, CheckCircle } from "lucide-react"
+import { Search, Wrench, Building2, AlertTriangle, HeartPulse, Navigation, MapPin } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { useAppContext } from "../context/AppContext"
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet"
+import L from "leaflet"
+import "leaflet/dist/leaflet.css"
+
+// Ranchi coordinates
+const RANCHI_CENTER: [number, number] = [23.3441, 85.3096]
 
 type PinType = "service" | "business" | "issue" | "resource"
 
-const mapPins = [
+const mapData = [
   // Services
-  { id: "s1", type: "service" as PinType, label: "Rahul Electrical", sub: "Electrician • 4.8★", top: "28%", left: "38%", price: "₹300" },
-  { id: "s2", type: "service" as PinType, label: "Kumar Plumbing", sub: "Plumber • 4.6★", top: "50%", left: "55%", price: "₹250" },
-  { id: "s3", type: "service" as PinType, label: "Ranchi Auto Works", sub: "Mechanic • 4.9★", top: "68%", left: "42%", price: "₹500" },
+  { id: "s1", type: "service" as PinType, label: "Rahul Electrical", sub: "Electrician • 4.8★", lat: 23.3481, lng: 85.3126, price: "₹300" },
+  { id: "s2", type: "service" as PinType, label: "Kumar Plumbing", sub: "Plumber • 4.6★", lat: 23.3351, lng: 85.3216, price: "₹250" },
+  { id: "s3", type: "service" as PinType, label: "Ranchi Auto Works", sub: "Mechanic • 4.9★", lat: 23.3510, lng: 85.2950, price: "₹500" },
   // Businesses
-  { id: "b1", type: "business" as PinType, label: "Spice Route", sub: "Restaurant • Open", top: "40%", left: "65%", price: "" },
-  { id: "b2", type: "business" as PinType, label: "Jharkhand Crafts", sub: "Handmade • Open", top: "22%", left: "72%", price: "" },
-  { id: "b3", type: "business" as PinType, label: "Green Valley Pharmacy", sub: "Pharmacy • 24hr", top: "60%", left: "70%", price: "" },
+  { id: "b1", type: "business" as PinType, label: "Spice Route", sub: "Restaurant • Open", lat: 23.3411, lng: 85.3196, price: "" },
+  { id: "b2", type: "business" as PinType, label: "Jharkhand Crafts", sub: "Handmade • Open", lat: 23.3581, lng: 85.3256, price: "" },
+  { id: "b3", type: "business" as PinType, label: "Green Valley Pharmacy", sub: "Pharmacy • 24hr", lat: 23.3311, lng: 85.3156, price: "" },
   // Issues
-  { id: "i1", type: "issue" as PinType, label: "Broken Streetlight", sub: "Kanke Road • Reported", top: "35%", left: "25%", price: "" },
-  { id: "i2", type: "issue" as PinType, label: "Severe Pothole", sub: "Harmu Bypass • In Progress", top: "62%", left: "30%", price: "" },
+  { id: "i1", type: "issue" as PinType, label: "Broken Streetlight", sub: "Kanke Road • Reported", lat: 23.3651, lng: 85.3196, price: "" },
+  { id: "i2", type: "issue" as PinType, label: "Severe Pothole", sub: "Harmu Bypass • In Progress", lat: 23.3381, lng: 85.2896, price: "" },
   // Resources
-  { id: "r1", type: "resource" as PinType, label: "RIMS Hospital", sub: "Emergency • 0651-2541000", top: "18%", left: "60%", price: "" },
-  { id: "r2", type: "resource" as PinType, label: "City Police HQ", sub: "Public Safety • 100", top: "75%", left: "58%", price: "" },
+  { id: "r1", type: "resource" as PinType, label: "RIMS Hospital", sub: "Emergency • 0651-2541000", lat: 23.3751, lng: 85.3296, price: "" },
+  { id: "r2", type: "resource" as PinType, label: "City Police HQ", sub: "Public Safety • 100", lat: 23.3451, lng: 85.3056, price: "" },
 ]
 
-const pinConfig: Record<PinType, { color: string; bg: string; icon: any; label: string; glow: string }> = {
-  service: { color: "text-white", bg: "bg-blue-600", icon: Wrench, label: "Services", glow: "shadow-[0_0_16px_rgba(37,99,235,0.5)]" },
-  business: { color: "text-white", bg: "bg-emerald-500", icon: Building2, label: "Businesses", glow: "shadow-[0_0_16px_rgba(16,185,129,0.5)]" },
-  issue: { color: "text-white", bg: "bg-amber-500", icon: AlertTriangle, label: "Issues", glow: "shadow-[0_0_16px_rgba(245,158,11,0.5)]" },
-  resource: { color: "text-white", bg: "bg-red-500", icon: HeartPulse, label: "Resources", glow: "shadow-[0_0_16px_rgba(239,68,68,0.5)]" },
+const pinConfig = {
+  service: { color: "text-white", bg: "bg-blue-600", bgHex: "#2563eb", icon: Wrench, label: "Services" },
+  business: { color: "text-white", bg: "bg-emerald-500", bgHex: "#10b981", icon: Building2, label: "Businesses" },
+  issue: { color: "text-white", bg: "bg-amber-500", bgHex: "#f59e0b", icon: AlertTriangle, label: "Issues" },
+  resource: { color: "text-white", bg: "bg-red-500", bgHex: "#ef4444", icon: HeartPulse, label: "Resources" },
 }
 
 const filterOptions: { key: PinType | "all"; label: string; color: string }[] = [
@@ -37,17 +42,43 @@ const filterOptions: { key: PinType | "all"; label: string; color: string }[] = 
   { key: "resource", label: "Emergency", color: "bg-red-500 text-white" },
 ]
 
+// Component to dynamically set map view
+function MapUpdater({ center }: { center: [number, number] }) {
+  const map = useMap()
+  map.setView(center, map.getZoom())
+  return null
+}
+
 export default function MapPage() {
   const [activeFilter, setActiveFilter] = useState<PinType | "all">("all")
-  const [selectedPin, setSelectedPin] = useState<typeof mapPins[0] | null>(null)
+  const [activeCenter, setActiveCenter] = useState<[number, number]>(RANCHI_CENTER)
 
-  const visiblePins = activeFilter === "all" ? mapPins : mapPins.filter(p => p.type === activeFilter)
+  const visiblePins = activeFilter === "all" ? mapData : mapData.filter(p => p.type === activeFilter)
+
+  // Custom marker icon creator
+  const createCustomIcon = (type: PinType) => {
+    const bgHex = pinConfig[type].bgHex
+    return L.divIcon({
+      className: 'custom-leaflet-marker',
+      html: `<div style="background-color: ${bgHex}; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); border: 2px solid white;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                ${type === 'service' ? '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>' : ''}
+                ${type === 'business' ? '<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>' : ''}
+                ${type === 'issue' ? '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>' : ''}
+                ${type === 'resource' ? '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 13v6"/><path d="M9 16h6"/>' : ''}
+              </svg>
+            </div>`,
+      iconSize: [36, 36],
+      iconAnchor: [18, 18],
+      popupAnchor: [0, -18],
+    })
+  }
 
   return (
     <div className="space-y-6 pb-10">
 
       {/* ═══ BANNER ═══ */}
-      <section className="relative rounded-3xl overflow-hidden shadow-xl" style={{ minHeight: 200 }}>
+      <section className="relative rounded-3xl overflow-hidden shadow-xl" style={{ minHeight: 180 }}>
         <img
           src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1400&q=80&auto=format&fit=crop"
           alt="Map"
@@ -57,21 +88,14 @@ export default function MapPage() {
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="relative z-10 px-8 md:px-14 py-10 flex flex-col md:flex-row items-center justify-between gap-6"
+          className="relative z-10 px-8 md:px-14 py-8 flex flex-col md:flex-row items-center justify-between gap-6"
         >
           <div>
             <div className="inline-block mb-2 px-3 py-1 rounded-full bg-white/15 border border-white/25 text-white/90 text-xs font-black uppercase tracking-widest">
-              📍 Ranchi Community Map
+              📍 Real Interactive Map
             </div>
             <h1 className="text-4xl md:text-5xl font-black text-white drop-shadow mb-2">Community Map</h1>
-            <p className="text-white/70 font-medium max-w-sm">Explore all services, businesses, civic issues, and emergency resources near you in Ranchi.</p>
-          </div>
-          <div className="relative flex-shrink-0 w-full md:w-72">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 z-10" />
-            <input
-              className="w-full pl-10 pr-4 h-12 rounded-2xl bg-white border-0 shadow-xl text-slate-900 font-medium placeholder:text-slate-400 outline-none"
-              placeholder="Search on map..."
-            />
+            <p className="text-white/70 font-medium max-w-sm text-sm">Explore live services, businesses, civic issues, and emergency resources dynamically pinned across Ranchi.</p>
           </div>
         </motion.div>
       </section>
@@ -91,113 +115,61 @@ export default function MapPage() {
           >
             {f.label}
             <span className={`ml-2 px-1.5 py-0.5 rounded-md text-xs ${activeFilter === f.key ? 'bg-white/20' : 'bg-slate-100 text-slate-500'}`}>
-              {f.key === 'all' ? mapPins.length : mapPins.filter(p => p.type === f.key).length}
+              {f.key === 'all' ? mapData.length : mapData.filter(p => p.type === f.key).length}
             </span>
           </motion.button>
         ))}
       </div>
 
-      {/* Map Area */}
-      <div className="relative rounded-3xl overflow-hidden bg-slate-100 border border-slate-200 shadow-xl" style={{ height: 520 }}>
-        {/* Map background */}
-        <img
-          src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1400&q=80&auto=format&fit=crop"
-          alt="Map background"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: "grayscale(20%) brightness(1.05) saturate(0.9)" }}
-        />
-        {/* Grid overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px)] bg-[size:60px_60px]" />
-        <div className="absolute inset-0 bg-blue-900/10" />
+      {/* Real Map Area */}
+      <div className="relative rounded-3xl overflow-hidden bg-slate-100 border border-slate-200 shadow-xl" style={{ height: 560 }}>
+        <MapContainer 
+          center={RANCHI_CENTER} 
+          zoom={13} 
+          style={{ height: '100%', width: '100%', zIndex: 10 }}
+          zoomControl={false}
+        >
+          <MapUpdater center={activeCenter} />
+          
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          />
 
-        {/* Ranchi label */}
-        <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md rounded-xl px-4 py-2 shadow-lg border border-white flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="font-black text-slate-900 text-sm">Ranchi, Jharkhand</span>
-        </div>
-
-        {/* Map Pins */}
-        <AnimatePresence>
-          {visiblePins.map((pin, i) => {
-            const cfg = pinConfig[pin.type]
-            const Icon = cfg.icon
-            return (
-              <motion.button
-                key={pin.id}
-                initial={{ scale: 0, opacity: 0, y: -20 }}
-                animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0, opacity: 0 }}
-                transition={{ delay: i * 0.06, type: "spring", stiffness: 400, damping: 20 }}
-                whileHover={{ scale: 1.2, y: -4, zIndex: 20 }}
-                whileTap={{ scale: 0.9 }}
-                style={{ top: pin.top, left: pin.left, position: "absolute", transform: "translate(-50%,-50%)" }}
-                className={`${cfg.bg} ${cfg.glow} p-2.5 rounded-full cursor-pointer relative z-10 flex items-center justify-center`}
-                onClick={() => setSelectedPin(selectedPin?.id === pin.id ? null : pin)}
-              >
-                <Icon className={`h-4 w-4 ${cfg.color}`} />
-                {/* Pulse ring for issues */}
-                {pin.type === 'issue' && (
-                  <motion.div
-                    className="absolute inset-0 rounded-full border-2 border-amber-400"
-                    animate={{ scale: [1, 1.8, 1.8], opacity: [1, 0, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
-                )}
-              </motion.button>
-            )
-          })}
-        </AnimatePresence>
-
-        {/* Selected Pin Popup */}
-        <AnimatePresence>
-          {selectedPin && (
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.95 }}
-              className="absolute top-4 right-4 w-64 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden z-30"
+          {visiblePins.map((pin) => (
+            <Marker 
+              key={pin.id} 
+              position={[pin.lat, pin.lng]}
+              icon={createCustomIcon(pin.type)}
             >
-              <div className={`px-4 py-3 flex items-center justify-between ${pinConfig[selectedPin.type].bg}`}>
-                <span className="text-white font-black text-sm">{pinConfig[selectedPin.type].label}</span>
-                <button onClick={() => setSelectedPin(null)} className="text-white/70 hover:text-white">
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
-              <div className="p-4">
-                <h3 className="font-black text-slate-900 text-base mb-1">{selectedPin.label}</h3>
-                <p className="text-slate-500 text-sm font-medium mb-3">{selectedPin.sub}</p>
-                {selectedPin.price && (
-                  <div className="flex items-center justify-between bg-blue-50 rounded-xl px-3 py-2.5 mb-3 border border-blue-100">
-                    <span className="text-xs font-bold text-slate-500">Starting at</span>
-                    <span className="font-black text-blue-700 text-lg">{selectedPin.price}</span>
+              <Popup className="custom-popup" closeButton={false}>
+                <div className="p-1 w-48">
+                  <div className={`-mt-1 -mx-1 -pt-1 px-3 py-2 rounded-t-lg mb-2 text-white font-black text-xs ${pinConfig[pin.type].bg}`}>
+                    {pinConfig[pin.type].label}
                   </div>
-                )}
-                <div className="flex gap-2">
-                  <button className="flex-1 py-2.5 rounded-xl text-xs font-black bg-slate-900 text-white hover:bg-slate-700 transition-colors">
-                    {selectedPin.type === 'service' ? 'Book Now' :
-                     selectedPin.type === 'business' ? 'View Shop' :
-                     selectedPin.type === 'resource' ? 'Call Now' : 'View Issue'}
-                  </button>
-                  <button className="p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-colors">
-                    <Navigation className="h-4 w-4 text-slate-600" />
+                  <h3 className="font-black text-slate-900 text-sm mb-1">{pin.label}</h3>
+                  <p className="text-slate-500 text-xs font-medium mb-3">{pin.sub}</p>
+                  
+                  {pin.price && (
+                    <div className="flex items-center justify-between bg-blue-50 rounded-lg px-2 py-1.5 mb-2 border border-blue-100">
+                      <span className="text-[10px] font-bold text-slate-500">Starting at</span>
+                      <span className="font-black text-blue-700 text-sm">{pin.price}</span>
+                    </div>
+                  )}
+                  
+                  <button className="w-full py-2 rounded-lg text-xs font-black bg-slate-900 text-white hover:bg-slate-700 transition-colors">
+                    {pin.type === 'service' ? 'Book Now' :
+                     pin.type === 'business' ? 'View Shop' :
+                     pin.type === 'resource' ? 'Call Now' : 'View Issue'}
                   </button>
                 </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </Popup>
+            </Marker>
+          ))}
+        </MapContainer>
 
-        {/* Map controls */}
-        <div className="absolute bottom-4 right-4 flex flex-col gap-2">
-          <button className="w-10 h-10 rounded-xl bg-white shadow-lg border border-slate-100 flex items-center justify-center text-slate-700 hover:bg-slate-50 font-black text-xl transition-colors">+</button>
-          <button className="w-10 h-10 rounded-xl bg-white shadow-lg border border-slate-100 flex items-center justify-center text-slate-700 hover:bg-slate-50 font-black text-xl transition-colors">−</button>
-          <button className="w-10 h-10 rounded-xl bg-white shadow-lg border border-slate-100 flex items-center justify-center text-blue-600 hover:bg-blue-50 transition-colors">
-            <Navigation className="h-4 w-4" />
-          </button>
-        </div>
-
-        {/* Legend */}
-        <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-white">
+        {/* Legend Overlay */}
+        <div className="absolute bottom-6 left-6 z-[20] bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-slate-100">
           <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-2.5">Legend</p>
           <div className="flex flex-col gap-2">
             {Object.entries(pinConfig).map(([key, cfg]) => {
@@ -217,9 +189,9 @@ export default function MapPage() {
 
       {/* Nearby quick list */}
       <div>
-        <h2 className="text-xl font-black text-slate-900 mb-4">📍 Nearest to You</h2>
+        <h2 className="text-xl font-black text-slate-900 mb-4">📍 Tap to Navigate</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {mapPins.slice(0, 4).map((pin, i) => {
+          {mapData.slice(0, 4).map((pin, i) => {
             const cfg = pinConfig[pin.type]
             const Icon = cfg.icon
             return (
@@ -229,17 +201,17 @@ export default function MapPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
                 whileHover={{ y: -4 }}
-                className="glass-card p-4 flex items-center gap-3 cursor-pointer"
-                onClick={() => setSelectedPin(pin)}
+                className="glass-card p-4 flex items-center gap-3 cursor-pointer hover:border-blue-200 hover:shadow-md"
+                onClick={() => setActiveCenter([pin.lat, pin.lng])}
               >
                 <div className={`w-10 h-10 rounded-xl ${cfg.bg} flex items-center justify-center flex-shrink-0 shadow-md`}>
                   <Icon className="h-5 w-5 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-black text-slate-900 text-sm truncate">{pin.label}</p>
-                  <p className="text-xs font-medium text-slate-500 truncate">{pin.sub}</p>
+                  <p className="text-[11px] font-bold text-slate-500 truncate mt-0.5">{pin.sub}</p>
                 </div>
-                {pin.price && <span className="text-xs font-black text-blue-700 flex-shrink-0">{pin.price}</span>}
+                <Navigation className="h-4 w-4 text-slate-400" />
               </motion.div>
             )
           })}

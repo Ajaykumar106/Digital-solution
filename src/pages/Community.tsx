@@ -236,13 +236,16 @@ export default function Community() {
                   <textarea className="w-full min-h-[110px] rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-amber-400 outline-none resize-none" placeholder="Describe the issue in detail — duration, severity, any safety risks for residents..." value={description} onChange={e => setDescription(e.target.value)} />
                 </div>
 
-                <motion.div
-                  whileHover={{ scale: 1.01 }}
-                  className="flex items-center justify-center gap-3 border-2 border-dashed border-slate-200 rounded-2xl p-8 cursor-pointer hover:border-amber-400 hover:bg-amber-50/30 transition-colors"
-                >
-                  <ImageIcon className="h-7 w-7 text-slate-400" />
-                  <div className="text-sm font-bold text-slate-500">Click to attach a photo <span className="text-slate-400 font-medium">(optional, helps RMC act faster)</span></div>
-                </motion.div>
+                <label className="block">
+                  <input type="file" className="hidden" accept="image/*" />
+                  <motion.div
+                    whileHover={{ scale: 1.01 }}
+                    className="flex items-center justify-center gap-3 border-2 border-dashed border-slate-200 rounded-2xl p-8 cursor-pointer hover:border-amber-400 hover:bg-amber-50/30 transition-colors"
+                  >
+                    <ImageIcon className="h-7 w-7 text-slate-400" />
+                    <div className="text-sm font-bold text-slate-500">Click to attach a photo <span className="text-slate-400 font-medium">(optional, helps RMC act faster)</span></div>
+                  </motion.div>
+                </label>
 
                 <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
                   <Button type="submit" className="w-full h-14 rounded-2xl text-base font-black bg-amber-600 hover:bg-amber-700 text-white shadow-lg border-none flex items-center justify-center gap-2">

@@ -188,9 +188,11 @@ export default function Businesses() {
                       <><Bookmark className="h-4 w-4 mr-2" /> Save</>
                     )}
                   </Button>
-                  <Button className="flex-[2] h-12 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-700 text-white border-none">
-                    Get Directions
-                  </Button>
+                  <Link to="/map" className="flex-[2]">
+                    <Button className="w-full h-12 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-700 text-white border-none">
+                      Get Directions
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </motion.div>

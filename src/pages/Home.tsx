@@ -54,9 +54,9 @@ export default function Home() {
     <div className="flex flex-col gap-20 pb-10">
 
       {/* ══════════════════════════════════════════
-          HERO — Parallax + Clear Image
+          HERO — Parallax + Clear Image (FULL BLEED)
       ══════════════════════════════════════════ */}
-      <section ref={heroRef} className="relative rounded-3xl overflow-hidden shadow-2xl" style={{ height: "calc(100vh - 120px)", minHeight: 600 }}>
+      <section ref={heroRef} className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden shadow-2xl -mt-6" style={{ height: "calc(100vh - 64px)", minHeight: 600 }}>
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <img
             src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1400&q=90&auto=format&fit=crop"
@@ -76,7 +76,7 @@ export default function Home() {
 
         <motion.div
           style={{ opacity: heroOpacity }}
-          className="relative z-10 flex flex-col items-center justify-center text-center px-6 py-28"
+          className="relative z-10 flex flex-col items-center justify-center text-center px-6 h-full"
         >
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -93,7 +93,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-5 text-5xl md:text-7xl font-black leading-[1.05] tracking-tight text-white drop-shadow-lg"
+            className="mb-5 text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight text-white drop-shadow-lg"
           >
             Digital Solutions
             <br />
@@ -177,6 +177,7 @@ export default function Home() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-60px" }}
+        className="pt-10"
       >
         <div className="text-center mb-8">
           <div className="inline-block px-4 py-1.5 rounded-full bg-blue-100 text-blue-700 text-xs font-black uppercase tracking-widest">Live Impact</div>
@@ -246,7 +247,7 @@ export default function Home() {
             },
             {
               icon: AlertOctagon, color: "text-amber-600", bg: "bg-amber-100", border: "border-t-amber-500",
-              imgUrl: "https://images.unsplash.com/photo-1541888046894-0994f796cc1f?w=600&q=80",
+              imgUrl: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&q=80",
               title: "Community Pulse",
               desc: "Report potholes, water failures, broken lights, and garbage overflow. Track resolution in real-time with status updates.",
               cta: "Report Issue", link: "/community",

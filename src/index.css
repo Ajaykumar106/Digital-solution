@@ -118,3 +118,20 @@
 /* ─── CARD TEXT OVERRIDES (ensure always dark) ─── */
 .glass-card h1, .glass-card h2, .glass-card h3, .glass-card h4 { color: #0f172a !important; }
 .glass-card p, .glass-card span, .glass-card div { color: #334155; }
+
+/* ─── LEAFLET OVERRIDES ─── */
+.leaflet-container { font-family: inherit; }
+.custom-popup .leaflet-popup-content-wrapper {
+  border-radius: 1rem;
+  padding: 0;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  border: 1px solid rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+.custom-popup .leaflet-popup-content {
+  margin: 0;
+  line-height: inherit;
+}
+.custom-popup .leaflet-popup-tip {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
