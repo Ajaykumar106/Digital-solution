@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 210 100% 50%;
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+  html, body, #root {
+    min-height: 100vh;
+    height: auto;
+    overflow-x: hidden;
+  }
+  body {
+    @apply text-slate-900 antialiased;
+    background-color: #f0f4f8;
+    background-image:
+      radial-gradient(ellipse at 0% 0%, hsla(210, 100%, 92%, 0.7) 0, transparent 55%),
+      radial-gradient(ellipse at 100% 0%, hsla(250, 100%, 94%, 0.6) 0, transparent 55%),
+      radial-gradient(ellipse at 50% 100%, hsla(200, 100%, 93%, 0.5) 0, transparent 60%);
+    background-attachment: fixed;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    color: #0f172a;
+    letter-spacing: -0.03em;
+    font-weight: 900;
+  }
+  p {
+    color: #334155;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* ─── GLASS UTILITIES ─── */
+.glass-primary {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.06);
+}
+.glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.glass-card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.09), 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.glass-panel {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+.glass-control {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.glass-control:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.28); }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─── SECTION BANNER ─── */
+.section-banner {
+  position: relative;
+  width: 100%;
+  border-radius: 2rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* ─── CARD TEXT OVERRIDES (ensure always dark) ─── */
+.glass-card h1, .glass-card h2, .glass-card h3, .glass-card h4 { color: #0f172a !important; }
+.glass-card p, .glass-card span, .glass-card div { color: #334155; }
