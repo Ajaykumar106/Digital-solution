@@ -358,33 +358,38 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════════════
-          HOW IT WORKS — Premium Animated
+          HOW IT WORKS — Premium Animated (Dark)
       ══════════════════════════════════════════ */}
-      <section>
-        <div className="text-center mb-12">
-          <div className="inline-block mb-3 px-4 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-black uppercase tracking-widest">Simple Process</div>
-          <h2 className="text-3xl md:text-5xl font-black text-slate-900">How DSLC Works</h2>
+      <section className="relative rounded-[2.5rem] overflow-hidden bg-slate-900 px-6 py-20 md:px-12 md:py-28 shadow-2xl my-10">
+        {/* Background glow effects */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-[100px] pointer-events-none" />
+
+        <div className="relative z-10 text-center mb-16">
+          <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-blue-300 text-xs font-black uppercase tracking-widest backdrop-blur-md">Simple Process</div>
+          <h2 className="text-4xl md:text-5xl font-black text-white">How DSLC Works</h2>
+          <p className="mt-4 text-slate-400 font-medium text-lg max-w-xl mx-auto">Three simple steps to connect with your community.</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 relative">
+        <div className="relative z-10 grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {/* Connector line */}
-          <div className="hidden md:block absolute top-14 left-[22%] right-[22%] h-0.5 bg-gradient-to-r from-blue-200 via-emerald-200 to-purple-200 z-0" />
+          <div className="hidden md:block absolute top-[52px] left-[20%] right-[20%] h-[2px] bg-gradient-to-r from-blue-500/30 via-emerald-500/30 to-purple-500/30 z-0" />
 
           {[
             {
               step: "01", emoji: "🔍", title: "Find What You Need",
               desc: "Browse verified services, local businesses, or emergency resources — organized for your community.",
-              color: "from-blue-500 to-blue-600", bg: "bg-blue-50", border: "border-blue-100", delay: 0
+              color: "from-blue-400 to-blue-600", bg: "bg-slate-800/50", glow: "hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]", delay: 0
             },
             {
               step: "02", emoji: "⚡", title: "Connect Instantly",
               desc: "Book a service, report a civic issue, or contact an authority — all in under 60 seconds, no paperwork.",
-              color: "from-emerald-500 to-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100", delay: 0.15
+              color: "from-emerald-400 to-emerald-600", bg: "bg-slate-800/50", glow: "hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]", delay: 0.15
             },
             {
               step: "03", emoji: "🏆", title: "Track & Earn Points",
               desc: "Follow up on bookings and civic issues in real-time. Your activity builds your community impact score.",
-              color: "from-purple-500 to-purple-600", bg: "bg-purple-50", border: "border-purple-100", delay: 0.3
+              color: "from-purple-400 to-purple-600", bg: "bg-slate-800/50", glow: "hover:shadow-[0_0_30px_rgba(168,85,247,0.3)]", delay: 0.3
             },
           ].map((s, i) => (
             <motion.div
@@ -394,22 +399,22 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: s.delay, ease: [0.22, 1, 0.36, 1] }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className={`glass-card p-8 text-center relative z-10 border ${s.border} ${s.bg}`}
+              className={`p-8 text-center relative z-10 rounded-3xl border border-white/10 backdrop-blur-xl ${s.bg} ${s.glow} transition-shadow duration-300`}
             >
-              <div className="relative inline-block mb-5">
+              <div className="relative inline-block mb-6">
                 <motion.div
-                  className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${s.color} flex items-center justify-center shadow-xl mx-auto`}
-                  animate={{ rotate: [0, 3, -3, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, delay: i * 0.5 }}
+                  className={`w-[104px] h-[104px] rounded-3xl bg-gradient-to-br ${s.color} flex items-center justify-center shadow-2xl mx-auto ring-4 ring-slate-900`}
+                  animate={{ rotate: [0, 4, -4, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, delay: i * 0.5, ease: "easeInOut" }}
                 >
-                  <span className="text-4xl">{s.emoji}</span>
+                  <span className="text-5xl">{s.emoji}</span>
                 </motion.div>
-                <div className={`absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gradient-to-br ${s.color} flex items-center justify-center text-white text-xs font-black shadow-md`}>
+                <div className="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-white flex items-center justify-center text-slate-900 text-sm font-black shadow-xl ring-4 ring-slate-900">
                   {s.step}
                 </div>
               </div>
-              <h3 className="text-xl font-black text-slate-900 mb-3">{s.title}</h3>
-              <p className="text-slate-600 font-medium leading-relaxed text-sm">{s.desc}</p>
+              <h3 className="text-xl font-black text-white mb-3">{s.title}</h3>
+              <p className="text-slate-400 font-medium leading-relaxed text-sm">{s.desc}</p>
             </motion.div>
           ))}
         </div>
