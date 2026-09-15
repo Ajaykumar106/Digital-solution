@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { useEffect } from "react"
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"
 import { Navbar } from "./components/layout/Navbar"
 import { Footer } from "./components/layout/Footer"
 import Home from "./pages/Home"
@@ -9,12 +10,22 @@ import Community from "./pages/Community"
 import Resources from "./pages/Resources"
 import MapPage from "./pages/MapPage"
 import MyActivity from "./pages/MyActivity"
+import AdminDashboard from "./pages/AdminDashboard"
 import { Toaster } from "sonner"
 import { AiAssistant } from "./components/AiAssistant"
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+  return null
+}
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -27,6 +38,7 @@ function App() {
             <Route path="/resources" element={<Resources />} />
             <Route path="/map" element={<MapPage />} />
             <Route path="/my-activity" element={<MyActivity />} />
+            <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </main>
         <Footer />

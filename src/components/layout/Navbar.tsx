@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom"
-import { MapPin, Bell, Menu, X, Home, LayoutDashboard, Wrench, Building2, Users, HeartHandshake, Map } from "lucide-react"
+import { MapPin, Bell, Menu, X, Home, LayoutDashboard, Wrench, Building2, Users, HeartHandshake, Map, Shield } from "lucide-react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
@@ -24,6 +24,7 @@ export function Navbar() {
     { name: "Community", path: "/community", icon: Users },
     { name: "Resources", path: "/resources", icon: HeartHandshake },
     { name: "Map", path: "/map", icon: Map },
+    { name: "Admin", path: "/admin", icon: Shield },
   ]
 
   return (

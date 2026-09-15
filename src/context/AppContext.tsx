@@ -5,8 +5,10 @@ type AppContextType = {
   issues: any[];
   addIssue: (issue: any) => void;
   supportIssue: (id: string) => void;
+  updateIssueStatus: (id: string, status: string) => void;
   bookings: any[];
   addBooking: (booking: any) => void;
+  updateBookingStatus: (id: string, status: string) => void;
   savedBusinesses: string[];
   toggleSaveBusiness: (id: string) => void;
   services: any[];
@@ -54,8 +56,20 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('localx_issues', JSON.stringify(newIssues));
   };
 
+  const updateIssueStatus = (id: string, status: string) => {
+    const newIssues = issues.map(i => i.id === id ? { ...i, status } : i);
+    setIssues(newIssues);
+    localStorage.setItem('localx_issues', JSON.stringify(newIssues));
+  };
+
   const addBooking = (booking: any) => {
-    const newBookings = [{ ...booking, id: `bk${Date.now()}`, status: 'Confirmed' }, ...bookings];
+    const newBookings = [{ ...booking, id: `bk${Date.now()}`, status: 'Confirmed', date: new Date().toISOString() }, ...bookings];
+    setBookings(newBookings);
+    localStorage.setItem('localx_bookings', JSON.stringify(newBookings));
+  };
+
+  const updateBookingStatus = (id: string, status: string) => {
+    const newBookings = bookings.map(b => b.id === id ? { ...b, status } : b);
     setBookings(newBookings);
     localStorage.setItem('localx_bookings', JSON.stringify(newBookings));
   };
@@ -71,10 +85,20 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('localx_saved_biz', JSON.stringify(newSaved));
   };
 
+  // Sync across tabs by listening to storage event
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'localx_issues' && e.newValue) setIssues(JSON.parse(e.newValue));
+      if (e.key === 'localx_bookings' && e.newValue) setBookings(JSON.parse(e.newValue));
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   return (
     <AppContext.Provider value={{
-      issues, addIssue, supportIssue,
-      bookings, addBooking,
+      issues, addIssue, supportIssue, updateIssueStatus,
+      bookings, addBooking, updateBookingStatus,
       savedBusinesses, toggleSaveBusiness,
       services: mockServices,
       businesses: mockBusinesses,
