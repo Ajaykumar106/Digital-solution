@@ -188,7 +188,7 @@ export default function Home() {
             { icon: CheckCircle, target: 326, suffix: "", label: "Verified Providers", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100" },
             { icon: AlertOctagon, target: 87, suffix: "", label: "Issues Resolved", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100" },
             { icon: Building2, target: 142, suffix: "", label: "Local Businesses", color: "text-purple-600", bg: "bg-purple-50", border: "border-purple-100" },
-          ].map((s, i) => (
+          ].map((s) => (
             <motion.div
               key={s.label}
               variants={fadeUp}
@@ -261,7 +261,7 @@ export default function Home() {
               cta: "Get Help Now", link: "/resources",
               tags: ["24/7 emergency lines", "Hospital locator", "Municipal contacts"]
             },
-          ].map((f, i) => (
+          ].map((f) => (
             <motion.div
               key={f.title}
               variants={fadeUp}

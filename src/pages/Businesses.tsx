@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useAppContext } from "../context/AppContext"
-import { Search, Star, MapPin, Phone, Globe, CheckCircle, X, Bookmark, BookmarkCheck, Clock } from "lucide-react"
+import { Search, Star, MapPin, Phone, X, Bookmark, BookmarkCheck, Clock } from "lucide-react"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"

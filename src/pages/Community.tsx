@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { useAppContext } from "../context/AppContext"
-import { MapPin, ThumbsUp, Calendar, Plus, Filter } from "lucide-react"
+import { MapPin, ThumbsUp, Calendar, Plus, Filter, Image as ImageIcon, ArrowUpRight } from "lucide-react"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import { Label } from "../components/ui/label"
