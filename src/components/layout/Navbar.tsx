@@ -50,25 +50,41 @@ export function Navbar() {
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-0.5">
             {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`relative rounded-xl px-4 py-2 text-sm font-bold transition-all ${
-                  location.pathname === item.path
-                    ? "text-blue-700"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
-                }`}
-              >
-                {location.pathname === item.path && (
-                  <motion.div
-                    layoutId="nav-pill"
-                    className="absolute inset-0 bg-blue-100 rounded-xl"
-                    style={{ zIndex: -1 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-                {item.name}
-              </Link>
+              <div key={item.path}>
+                  {item.name === "Admin" ? (
+                    <a
+                      href={item.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`relative rounded-xl px-4 py-2 text-sm font-bold transition-all flex items-center ${
+                        location.pathname === item.path
+                          ? "text-blue-700"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
+                      }`}
+                    >
+                      {item.name}
+                    </a>
+                  ) : (
+                    <Link
+                      to={item.path}
+                      className={`relative rounded-xl px-4 py-2 text-sm font-bold transition-all flex items-center ${
+                        location.pathname === item.path
+                          ? "text-blue-700"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
+                      }`}
+                    >
+                      {location.pathname === item.path && (
+                        <motion.div
+                          layoutId="nav-pill"
+                          className="absolute inset-0 bg-blue-100 rounded-xl"
+                          style={{ zIndex: -1 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                        />
+                      )}
+                      {item.name}
+                    </Link>
+                  )}
+              </div>
             ))}
           </nav>
 
