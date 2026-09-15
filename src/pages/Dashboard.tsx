@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useAppContext } from "../context/AppContext"
-import { Search, MapPin, AlertTriangle, Building2, Wrench, Shield, ChevronRight, TrendingUp, Clock } from "lucide-react"
+import { Search, MapPin, AlertTriangle, Building2, Wrench, Shield, ChevronRight, TrendingUp } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"

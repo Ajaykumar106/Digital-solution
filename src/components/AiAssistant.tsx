@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react"
-import { X, Send, Bot, ChevronDown } from "lucide-react"
+import { X, Send, Bot } from "lucide-react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Link } from "react-router-dom"

@@ -10,7 +10,7 @@ const container = {
 }
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } }
 }
 
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
@@ -92,7 +92,7 @@ export default function Home() {
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" as any }}
             className="mb-5 text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight text-white drop-shadow-lg"
           >
             Digital Solutions
@@ -397,7 +397,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: s.delay, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.6, delay: s.delay, ease: "easeOut" as any }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
               className={`p-8 text-center relative z-10 rounded-3xl border border-white/10 backdrop-blur-xl ${s.bg} ${s.glow} transition-shadow duration-300`}
             >

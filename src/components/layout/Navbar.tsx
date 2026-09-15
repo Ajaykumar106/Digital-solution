@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom"
-import { MapPin, Bell, Menu, X, Home, LayoutDashboard, Wrench, Building2, Users, HeartHandshake, Map, CheckCircle, AlertTriangle } from "lucide-react"
+import { MapPin, Bell, Menu, X, Home, LayoutDashboard, Wrench, Building2, Users, HeartHandshake, Map } from "lucide-react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 

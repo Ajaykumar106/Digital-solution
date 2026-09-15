@@ -4,6 +4,7 @@ import { Search, Star, MapPin, Phone, Globe, CheckCircle, X, Bookmark, BookmarkC
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
+import { Link } from "react-router-dom"
 
 const categories = ["All", "Food", "Handmade", "Retail", "Grocery", "Pharmacy", "Cafe"]
 

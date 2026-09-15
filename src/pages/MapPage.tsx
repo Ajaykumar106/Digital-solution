@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { Search, Wrench, Building2, AlertTriangle, HeartPulse, Navigation, MapPin } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
+import { Navigation, Wrench, Building2, AlertTriangle, HeartPulse } from "lucide-react"
+import { motion } from "framer-motion"
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
