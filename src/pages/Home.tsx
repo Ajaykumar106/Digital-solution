@@ -301,15 +301,16 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════════════
-          AI ASSISTANT SECTION
+          AI ASSISTANT SECTION — Clean White
       ══════════════════════════════════════════ */}
-      <section className="relative rounded-3xl overflow-hidden shadow-xl" style={{ minHeight: 240 }}>
-        <img
-          src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1200&q=80&auto=format&fit=crop"
-          alt="AI"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/90 via-blue-900/80 to-indigo-900/70" />
+      <section className="relative rounded-[2.5rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200" style={{ minHeight: 240 }}>
+        {/* Subtle animated background gradient instead of image */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-white" />
+        
+        {/* Decorative background blurs */}
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-200/40 rounded-full blur-[80px] pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-200/40 rounded-full blur-[80px] pointer-events-none" />
+
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -321,34 +322,35 @@ export default function Home() {
             <motion.div
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 3, repeat: Infinity }}
-              className="inline-flex items-center gap-2 mb-4"
+              className="inline-flex items-center gap-2 mb-4 bg-white/60 backdrop-blur-md px-4 py-1.5 rounded-full border border-blue-100 shadow-sm"
             >
-              <Zap className="h-5 w-5 text-yellow-400" />
-              <span className="text-yellow-400 font-black text-sm uppercase tracking-wider">AI-Powered Intelligence</span>
+              <Zap className="h-4 w-4 text-amber-500" />
+              <span className="text-amber-600 font-black text-xs uppercase tracking-wider">AI-Powered Intelligence</span>
             </motion.div>
-            <h2 className="text-4xl font-black text-white mb-4">Meet DSLC AI</h2>
-            <p className="text-white/75 font-medium max-w-lg leading-relaxed">
-              Tell us your problem in plain language — "I have a water leak" or "there's a pothole near my house" — our AI instantly connects you to the right service or authority. Powered by <strong className="text-white">Google Gemini</strong>.
+            <h2 className="text-4xl font-black text-slate-900 mb-4">Meet DSLC AI</h2>
+            <p className="text-slate-600 font-medium max-w-lg leading-relaxed text-lg">
+              Tell us your problem in plain language — "I have a water leak" or "there's a pothole near my house" — our AI instantly connects you to the right service or authority. Powered by <strong className="text-blue-600">Google Gemini</strong>.
             </p>
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-6 flex flex-wrap gap-2">
               {["Find a plumber", "Report pothole", "Nearest hospital", "Local food"].map(p => (
-                <span key={p} className="text-xs font-bold text-white/80 bg-white/10 border border-white/20 px-3 py-1.5 rounded-full">{p}</span>
+                <span key={p} className="text-xs font-bold text-slate-600 bg-white/80 backdrop-blur-sm border border-slate-200 px-4 py-2 rounded-full shadow-sm">{p}</span>
               ))}
             </div>
           </div>
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-6">
             <motion.div
-              className="w-20 h-20 rounded-3xl bg-white/15 border border-white/25 backdrop-blur-md flex items-center justify-center"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              className="w-24 h-24 rounded-[2rem] bg-white border border-slate-100 shadow-xl flex items-center justify-center relative"
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
-              <span className="text-4xl">🤖</span>
+              <div className="absolute inset-0 rounded-[2rem] border-2 border-blue-100 blur-[2px]" />
+              <span className="text-5xl drop-shadow-md z-10">🤖</span>
             </motion.div>
             <Link to="/dashboard">
               <motion.button
-                whileHover={{ scale: 1.06 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 rounded-2xl bg-white text-blue-900 font-black text-base shadow-2xl hover:bg-blue-50"
+                whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1)" }}
+                whileTap={{ scale: 0.97 }}
+                className="px-8 py-4 rounded-2xl bg-slate-900 text-white font-black text-base shadow-lg transition-all"
               >
                 Ask DSLC AI →
               </motion.button>
