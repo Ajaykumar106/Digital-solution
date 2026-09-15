@@ -358,38 +358,38 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════════════
-          HOW IT WORKS — Premium Animated (Dark)
+          HOW IT WORKS — Clean Light Glassmorphic
       ══════════════════════════════════════════ */}
-      <section className="relative rounded-[2.5rem] overflow-hidden bg-slate-900 px-6 py-20 md:px-12 md:py-28 shadow-2xl my-10">
-        {/* Background glow effects */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-[100px] pointer-events-none" />
+      <section className="relative rounded-[2.5rem] overflow-hidden bg-white/40 backdrop-blur-2xl px-6 py-20 md:px-12 md:py-28 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/60 my-10">
+        {/* Subtle background glow effects */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-100/50 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-100/50 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="relative z-10 text-center mb-16">
-          <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-blue-300 text-xs font-black uppercase tracking-widest backdrop-blur-md">Simple Process</div>
-          <h2 className="text-4xl md:text-5xl font-black text-white">How DSLC Works</h2>
-          <p className="mt-4 text-slate-400 font-medium text-lg max-w-xl mx-auto">Three simple steps to connect with your community.</p>
+          <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-black uppercase tracking-widest shadow-sm">Simple Process</div>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900">How DSLC Works</h2>
+          <p className="mt-4 text-slate-500 font-medium text-lg max-w-xl mx-auto">Three simple steps to connect with your community.</p>
         </div>
 
         <div className="relative z-10 grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {/* Connector line */}
-          <div className="hidden md:block absolute top-[52px] left-[20%] right-[20%] h-[2px] bg-gradient-to-r from-blue-500/30 via-emerald-500/30 to-purple-500/30 z-0" />
+          <div className="hidden md:block absolute top-[52px] left-[20%] right-[20%] h-[2px] bg-gradient-to-r from-blue-200 via-emerald-200 to-purple-200 z-0" />
 
           {[
             {
               step: "01", emoji: "🔍", title: "Find What You Need",
               desc: "Browse verified services, local businesses, or emergency resources — organized for your community.",
-              color: "from-blue-400 to-blue-600", bg: "bg-slate-800/50", glow: "hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]", delay: 0
+              color: "from-blue-400 to-blue-500", bg: "bg-white/60", border: "border-blue-100", delay: 0
             },
             {
               step: "02", emoji: "⚡", title: "Connect Instantly",
               desc: "Book a service, report a civic issue, or contact an authority — all in under 60 seconds, no paperwork.",
-              color: "from-emerald-400 to-emerald-600", bg: "bg-slate-800/50", glow: "hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]", delay: 0.15
+              color: "from-emerald-400 to-emerald-500", bg: "bg-white/60", border: "border-emerald-100", delay: 0.15
             },
             {
               step: "03", emoji: "🏆", title: "Track & Earn Points",
               desc: "Follow up on bookings and civic issues in real-time. Your activity builds your community impact score.",
-              color: "from-purple-400 to-purple-600", bg: "bg-slate-800/50", glow: "hover:shadow-[0_0_30px_rgba(168,85,247,0.3)]", delay: 0.3
+              color: "from-purple-400 to-purple-500", bg: "bg-white/60", border: "border-purple-100", delay: 0.3
             },
           ].map((s, i) => (
             <motion.div
@@ -399,22 +399,22 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: s.delay, ease: "easeOut" as any }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className={`p-8 text-center relative z-10 rounded-3xl border border-white/10 backdrop-blur-xl ${s.bg} ${s.glow} transition-shadow duration-300`}
+              className={`p-8 text-center relative z-10 rounded-3xl border ${s.border} backdrop-blur-xl ${s.bg} shadow-xl hover:shadow-2xl transition-all duration-300`}
             >
               <div className="relative inline-block mb-6">
                 <motion.div
-                  className={`w-[104px] h-[104px] rounded-3xl bg-gradient-to-br ${s.color} flex items-center justify-center shadow-2xl mx-auto ring-4 ring-slate-900`}
+                  className={`w-[104px] h-[104px] rounded-3xl bg-gradient-to-br ${s.color} flex items-center justify-center shadow-lg mx-auto ring-4 ring-white`}
                   animate={{ rotate: [0, 4, -4, 0] }}
                   transition={{ duration: 5, repeat: Infinity, delay: i * 0.5, ease: "easeInOut" }}
                 >
                   <span className="text-5xl">{s.emoji}</span>
                 </motion.div>
-                <div className="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-white flex items-center justify-center text-slate-900 text-sm font-black shadow-xl ring-4 ring-slate-900">
+                <div className="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-white text-sm font-black shadow-xl ring-4 ring-white">
                   {s.step}
                 </div>
               </div>
-              <h3 className="text-xl font-black text-white mb-3">{s.title}</h3>
-              <p className="text-slate-400 font-medium leading-relaxed text-sm">{s.desc}</p>
+              <h3 className="text-xl font-black text-slate-900 mb-3">{s.title}</h3>
+              <p className="text-slate-600 font-medium leading-relaxed text-sm">{s.desc}</p>
             </motion.div>
           ))}
         </div>
